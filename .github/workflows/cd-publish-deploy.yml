@@ -1,0 +1,26 @@
+name: CD - Publish and Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-publish:
+    name: Build and Publish Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u xlillium --password-stdin
+
+      - name: Build and tag Docker image
+        run: |
+          docker build -t ghcr.io/xlillium/test-gh-deploy-frontend:${{ github.sha }} .
+          docker tag ghcr.io/xlillium/test-gh-deploy-frontend:${{ github.sha }} ghcr.io/xlillium/test-gh-deploy-frontend:latest
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/xlillium/test-gh-deploy-frontend:${{ github.sha }}
+          docker push ghcr.io/xlillium/test-gh-deploy-frontend:latest

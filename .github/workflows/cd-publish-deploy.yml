@@ -1,6 +1,8 @@
 name: CD - Publish and Deploy
 
 on:
+  pull_request:
+    branches: [ "main" ]
   push:
     branches: [ "main" ]
 
@@ -25,18 +27,18 @@ jobs:
           docker push ghcr.io/xlillium/test-gh-deploy-frontend:${{ github.sha }}
           docker push ghcr.io/xlillium/test-gh-deploy-frontend:latest
 
-  deploy:
-    name: Deploy to VPS
-    needs: build-and-publish
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy on VPS via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_KEY }}
-
-          script: |
-            env GIT_COMMIT_HASH=${{ github.sha }} docker stack deploy -c docker-stack.yml test-gh-deploy
+#  deploy:
+#    name: Deploy to VPS
+#    needs: build-and-publish
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Deploy on VPS via SSH
+#        uses: appleboy/ssh-action@v1
+#        with:
+#          host: ${{ secrets.VPS_HOST }}
+#          username: ${{ secrets.VPS_USER }}
+#          key: ${{ secrets.VPS_KEY }}
+#
+#          script: |
+#            env GIT_COMMIT_HASH=${{ github.sha }} docker stack deploy -c docker-stack.yml test-gh-deploy

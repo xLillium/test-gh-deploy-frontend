@@ -1,59 +1,136 @@
-# TestGhDeployFrontend
+# Test GH Deploy Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
+![Angular](https://img.shields.io/badge/Angular-19.2.3-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
-## Development server
+A modern Angular application with automated CI/CD deployment via Docker Swarm.
 
-To start a local development server, run:
+## 🚀 Features
+
+- **Angular 19.2.3**: Built with the latest Angular framework
+- **Docker Integration**: Containerized for consistent deployments
+- **CI/CD Pipeline**: Automated testing, building, and deployment with GitHub Actions
+- **Docker Swarm**: Orchestrated deployment for high availability
+
+## 📋 Prerequisites
+
+- Node.js (Latest LTS version recommended)
+- npm (comes with Node.js)
+- Docker (for containerization)
+- Angular CLI (`npm install -g @angular/cli`)
+
+## 🛠️ Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/xlillium/test-gh-deploy-frontend.git
+cd test-gh-deploy-frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+## 🖥️ Development
+
+### Local Development Server
+
+Start the development server:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to [http://localhost:4200/](http://localhost:4200/). The application automatically reloads when you change any source files.
 
-## Code scaffolding
+### Code Generation
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Generate new components, services, directives, and more:
 
 ```bash
-ng generate --help
+ng generate component my-component
+ng generate service my-service
+ng generate directive my-directive
 ```
 
-## Building
+## 🧪 Testing
 
-To build the project run:
+### Running Unit Tests
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Execute unit tests via [Karma](https://karma-runner.github.io):
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+For CI environments or headless testing:
 
 ```bash
-ng e2e
+npm run test -- --watch=false --browsers=ChromeHeadless
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🏗️ Building
 
-## Additional Resources
+Build the project:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+ng build
+```
+
+For production builds with optimizations:
+
+```bash
+ng build --configuration=production
+```
+
+The build artifacts will be stored in the `dist/` directory.
+
+## 🐳 Docker
+
+### Build Docker Image
+
+```bash
+docker build -t test-gh-deploy-frontend:latest .
+```
+
+### Run Docker Container
+
+```bash
+docker run -p 80:80 test-gh-deploy-frontend:latest
+```
+
+Access the application at [http://localhost](http://localhost)
+
+## 🚢 Deployment
+
+The project uses GitHub Actions for CI/CD:
+
+1. Open Pull Request targeting `main` branch triggers the application tests 
+2. Push to `main` branch triggers the build and publish workflow
+3. Docker image is built and published to GitHub Container Registry (ghcr.io)
+4. Deployment to VPS occurs via SSH
+5. Docker Swarm handles the deployment using the latest image
+
+
+## 🔧 Configuration
+
+### Docker Configuration
+
+The Dockerfile builds the application and sets up an Nginx server to serve the app.
+
+### GitHub Actions Configuration
+
+CI/CD workflows are defined in `.github/workflows/`:
+- `ci-tests.yml`: Runs tests on pull requests
+- `cd-publish-deploy.yml`: Builds, publishes, and deploys on push to main
+
+---
+
+## 📞 Contact
+
+For questions about this infrastructure, please contact [xlillium](https://github.com/xlillium).
